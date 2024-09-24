@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="./images/logo.webp" alt="freegameshub" width="200" height="40">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="pcGamesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        PC Games
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="pcGamesDropdown">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Adventure</a></li>
+                        <li><a class="dropdown-item" href="#">Strategy</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="browserGamesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Browser Games
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="browserGamesDropdown">
+                        <li><a class="dropdown-item" href="#">Puzzle</a></li>
+                        <li><a class="dropdown-item" href="#">Casual</a></li>
+                        <li><a class="dropdown-item" href="#">MMO</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/news">Latest News</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/giveaways">Givea</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            </form>
+        </div>
+    </div>
+</nav> 
+<body>
+    <!-- Filter Section -->
+    <div class="container filter-section mb-4">
+        <div class="mb-3">
+            <select id="platform"  class="form-select">
+                <option value="">Select Platform</option>
+                <option value="pc">PC (Windows)</option>
+                <option value="browser">Web Browser</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <select id="category_filter" class="form-select">
+                <option value="">Select Category</option>
+
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+        <div class="mb-3">
+            <select id="release-year" class="form-select">
+                <option value="">Select Year</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <!-- Add more options as needed -->
+              
+            </select>
+        </div>
+        <div class="mb-3">
+            <select id="sort-by" class="form-select">
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+                <option value="a-z">Alphabetical A-Z</option>
+                <option value="z-a">Alphabetical Z-A</option>
+            </select>
+        </div>
+        <div class="filter-buttons">
+            <button class="btn btn-more" type="button">
+                More
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" aria-hidden="true" focusable="false" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M487.976 0H24.028C2.71 0-8.047 25.866 7.058 40.971L192 225.941V432c0 7.831 3.821 15.17 10.237 19.662l80 55.98C298.02 518.69 320 507.493 320 487.98V225.941l184.947-184.97C520.021 25.896 509.338 0 487.976 0z"></path>
+                </svg>
+            </button>
+            <button class="btn btn-clear" type="button">
+                Clear
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 48 48" aria-hidden="true" focusable="false" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <polygon fill="#F57C00" points="29,23 19,23 7,9 41,9"></polygon>
+                    <g fill="#FF9800">
+                        <polygon points="29,38 19,44 19,23 29,23"></polygon>
+                        <path d="M41.5,9h-35C5.7,9,5,8.3,5,7.5v0C5,6.7,5.7,6,6.5,6h35C42.3,6,43,6.7,43,7.5v0C43,8.3,42.3,9,41.5,9z"></path>
+                    </g>
+                    <circle fill="#F44336" cx="38" cy="38" r="10"></circle>
+                    <rect x="32" y="36" fill="#fff" width="12" height="4"></rect>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+        <div class="container">
+                <div class="row g-4" id="card-create"></div>
+            
+        </div>
+    </div>
+    <div class="container">
+        <div class="pagination mt-4">
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <img src=".\images\logo-sm.png" alt="Footer Logo">
+            <div class="social-links">
+                <a href="#" class="btn btn-outline-light btn-sm">Facebook</a>
+                <a href="#" class="btn btn-outline-light btn-sm">Twitter</a>
+                <a href="#" class="btn btn-outline-light btn-sm">Instagram</a>
+            </div>
+            <div>Thanks to MMOBomb.com for providing awesome  fdda API.</div>
+        </div>
+    </footer>
+
+    <script>
+
+ //call game api to get the data       
+async function mydata(){
+    const url = 'https://free-to-play-games-database.p.rapidapi.com/api/games';
+    const options = {
+        method: 'GET',
+        headers: {
+            'x-rapidapi-key': 'ddc77ba17dmsh9757b4165dd8a04p179b34jsndb3e9fbbea77',
+            'x-rapidapi-host': 'free-to-play-games-database.p.rapidapi.com',
+            'Content-Type': 'application/json'
+        }
+    };
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        displayImages(result);
+        yearFilterOptions(result);
+        categoryFilterOptions(result);
+
+        document.getElementById('release-year').addEventListener('change', function() {
+            applyFilters(result); 
+        });
+        document.getElementById('platform').addEventListener('change', function() {
+            applyFilters(result); 
+        });
+        document.getElementById('sort-by').addEventListener('change', function() {
+            applyFilters(result); 
+        });
+       
+        document.getElementById('category_filter').addEventListener('change', function() {
+            applyFilters(result); 
+        });
+        
+    } catch (error) {
+        console.error(error);
+    }
+}
+mydata();
+
+function displayImages(data) {
+    const card = document.getElementById('card-create');
+    card.innerHTML = '';
+        data.forEach(game => {
+            const body = createCard(game.title, game.short_description);
+            card.appendChild(body);
+    });
+ 
+} 
+
+//create a gilter function in option value
+
+
+function  categoryFilterOptions(data){
+    const filter = document.getElementById('category_filter');
+    const genreMap = {};  // Use an object to store unique genres
+    filter.innerHTML = '';  // Clear previous options
+    data.forEach(game => {
+        if (!genreMap[game.genre]) {
+        const option = document.createElement('option');
+        option.value = game.genre;
+        option.text = game.genre;
+        filter.appendChild(option);
+        genreMap[game.genre] = true;
+        }
+    });
+}
+//this is for testing
+// function darray(){
+//     const selectedCategory = document.getElementById('category_filter').value;
+//     let filteredgame= [aaa ,aaa ,aas, aadd ,dadfda, sfdfe, eeeee, eeeee];
+//     let test = [];
+//      if(selectedCategory) {
+        
+//      }
+// }
+
+//function to get year value and set in option 
+function yearFilterOptions(data){
+    const yeardata =document.getElementById('release-year');
+    const genreYear = {}; 
+    yeardata.innerHTML='';
+    data.forEach(game => {
+        release_date =game.release_date;
+        let mydate = new Date(release_date);
+        let year_dsata = mydate.getFullYear(); 
+
+        if (!genreYear[year_dsata] && !isNaN(year_dsata)) {
+            const option = document.createElement('option');
+            option.value = year_dsata;
+            option.text = year_dsata;
+            yeardata.appendChild(option);
+            genreYear[year_dsata] = true;
+        }
+    });
+}
+
+// function filterGamesByYear(data) {
+//     const selectedYear = document.getElementById('release-year').value;
+
+//     if (selectedYear) {
+//         // Filter games based on the selected year
+//         const filteredGames = data.filter(game => {
+//             let releaseDate = new Date(game.release_date); 
+//             let releaseYear = releaseDate.getFullYear(); 
+//             return releaseYear == selectedYear;
+//         });
+//         displayImages(filteredGames);
+//         console.log(filteredGames);
+//     } 
+// }
+
+function applyFilters(data) {
+    const selectedYear = document.getElementById('release-year').value;
+    const selectedCategory = document.getElementById('category_filter').value;
+    const selectedPlatform = document.getElementById('platform').value;
+    const selectedsortFilter = document.getElementById('sort-by').value;
+    
+    let filteredGames = data;
+
+    // Update code: Filter games based on the selected year and category simultaneously
+    if (selectedYear) {
+        filteredGames = filteredGames.filter(game => {
+            let releaseDate = new Date(game.release_date);  // Convert release date to Date object
+            let releaseYear = releaseDate.getFullYear();    // Get the year from the release date
+            return releaseYear == selectedYear;
+        });
+    }
+    if (selectedCategory) {
+        filteredGames = filteredGames.filter(game =>
+            game.genre === selectedCategory); 
+    }
+    console.log(selectedPlatform);
+    // if(selectedPlatform === "pc") {
+    //         filteredGames =  filteredGames.filter(game => {
+    //             gameplatformpcdata=== game.platform ;
+    //              gameplatformpc === "PC (Windows)" ;
+                 
+    //              return gameplatformpcdata === gameplatformpc;
+    //         });
+    // }
+   
+    if (selectedPlatform === "pc") {
+        filteredGames = filteredGames.filter(game => {
+       
+            let gameplatformpc = game.platform;  // Get the platform for each game
+            return gameplatformpc === "PC (Windows)";  // Compare it with the static value
+        });
+    }
+    
+    if (selectedPlatform === "browser") {
+        filteredGames = filteredGames.filter(game => {
+            let gameplatformpc = game.platform;  // Get the platform for each game
+            return gameplatformpc === "Web Browser";  // Compare it with the static value
+        });
+    }
+    // Display the games that match both filters
+
+    if (selectedsortFilter === "a-z") {
+    // Sort games by their title alphabetically
+    filteredGames = filteredGames.sort((a, b) => {
+        let titleA = a.title.toLowerCase();  // Convert to lowercase to ensure case-insensitive sorting
+        let titleB = b.title.toLowerCase();
+        
+        if (titleA < titleB) return -1;  // `a` comes first
+        if (titleA > titleB) return 1;   // `b` comes first
+        return 0;  // Titles are equal
+    });
+}
+if (selectedsortFilter === "z-a") {
+    // Sort games by their title alphabetically
+    filteredGames = filteredGames.sort((a, b) => {
+        let titleA = a.title.toLowerCase();  // Convert to lowercase to ensure case-insensitive sorting
+        let titleB = b.title.toLowerCase();
+        
+        if (titleB < titleA) return -1;  // `a` comes first
+        if (titleB > titleA) return 1;   // `b` comes first
+        return 0;  // Titles are equal
+    });
+}
+    displayImages(filteredGames);
+    // console.log(filteredGames);  // Log filtered games for debugging
+}
+
+
+function createCard(title, description) {
+    // Create a container with the 'row' class
+
+    // Create a column with grid classes
+    const col = document.createElement('div');
+    col.classList.add('col-12', 'col-sm-6', 'col-md-4', 'col-lg-3');
+
+    const acol = document.createElement('div');
+    acol.classList.add('card');
+    // Create the card body
+    const card = document.createElement('div');
+    card.classList.add('card-body');
+    
+    const cardTitle = document.createElement('h5');
+    cardTitle.classList.add('card-title');
+    cardTitle.textContent = title;
+    
+    const cardDesc = document.createElement('p');
+    cardDesc.classList.add('card-text');
+    cardDesc.textContent = description; 
+    
+    card.appendChild(cardTitle);
+    card.appendChild(cardDesc);
+    acol.appendChild((card));
+    // Append the card to the column, then the column to the row
+    col.appendChild(acol);
+
+    return col;
+}
+
+
+
+    </script>
+
+</body>
+</html>
+ 

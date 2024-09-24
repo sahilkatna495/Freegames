@@ -1,0 +1,89 @@
+   body {
+            background-color: black;
+            color: white;
+        }
+        .navbar-custom {
+            background-color: #000;
+        }
+        .nav-item a {
+            color: #fff;
+        }
+        .nav-item a:hover, .nav-item a:focus, .nav-item.active a {
+            color: #fff;
+            font-weight: bold;
+        }
+        .filter-section {
+            padding: 20px;
+            background-color: #000;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .filter-section .form-select {
+            margin-bottom: 15px;
+             color: hsla(45, 100%, 50%, 0.7);
+        }
+        .btn-clear, .btn-more {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            gap: 0.5rem;
+            border: none;
+            color: white;
+        }
+        .btn-clear {
+            background-color: #f44336;
+        }
+        .btn-clear:hover {
+            background-color: #d32f2f;
+        }
+        .btn-more {
+            background-color: #ff9800;
+        }
+        .btn-more:hover {
+            background-color: #fb8c00;
+        }
+        .card {
+            background-color: #333;
+            border-radius: 10px;
+            padding: 10px;
+            color: white;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .pagination {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .pagination .page-link {
+            color: #fff;
+            background-color: #333;
+        }
+        .pagination .page-link:hover {
+            background-color: #555;
+        }
+        footer {
+            background-color: #0d0d0d;
+            padding: 20px 0;
+            text-align: center;
+        }
+        footer img {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+        .social-links a {
+            color: #ff6600;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .pagination a {border:none;
+        }

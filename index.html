@@ -260,12 +260,10 @@ function applyFilters(data) {
     const selectedsortFilter = document.getElementById('sort-by').value;
     
     let filteredGames = data;
-
-    // Update code: Filter games based on the selected year and category simultaneously
     if (selectedYear) {
         filteredGames = filteredGames.filter(game => {
-            let releaseDate = new Date(game.release_date);  // Convert release date to Date object
-            let releaseYear = releaseDate.getFullYear();    // Get the year from the release date
+            let releaseDate = new Date(game.release_date);  
+            let releaseYear = releaseDate.getFullYear();
             return releaseYear == selectedYear;
         });
     }
@@ -273,28 +271,19 @@ function applyFilters(data) {
         filteredGames = filteredGames.filter(game =>
             game.genre === selectedCategory); 
     }
-    console.log(selectedPlatform);
-    // if(selectedPlatform === "pc") {
-    //         filteredGames =  filteredGames.filter(game => {
-    //             gameplatformpcdata=== game.platform ;
-    //              gameplatformpc === "PC (Windows)" ;
-                 
-    //              return gameplatformpcdata === gameplatformpc;
-    //         });
-    // }
-   
+
     if (selectedPlatform === "pc") {
         filteredGames = filteredGames.filter(game => {
        
-            let gameplatformpc = game.platform;  // Get the platform for each game
-            return gameplatformpc === "PC (Windows)";  // Compare it with the static value
+            let gameplatformpc = game.platform; 
+            return gameplatformpc === "PC (Windows)"; 
         });
     }
     
     if (selectedPlatform === "browser") {
         filteredGames = filteredGames.filter(game => {
-            let gameplatformpc = game.platform;  // Get the platform for each game
-            return gameplatformpc === "Web Browser";  // Compare it with the static value
+            let gameplatformpc = game.platform;  
+            return gameplatformpc === "Web Browser"; 
         });
     }
     // Display the games that match both filters
@@ -302,40 +291,35 @@ function applyFilters(data) {
     if (selectedsortFilter === "a-z") {
     // Sort games by their title alphabetically
     filteredGames = filteredGames.sort((a, b) => {
-        let titleA = a.title.toLowerCase();  // Convert to lowercase to ensure case-insensitive sorting
+        let titleA = a.title.toLowerCase(); 
         let titleB = b.title.toLowerCase();
         
-        if (titleA < titleB) return -1;  // `a` comes first
-        if (titleA > titleB) return 1;   // `b` comes first
-        return 0;  // Titles are equal
+        if (titleA < titleB) return -1;  
+        if (titleA > titleB) return 1;  
+        return 0;  
     });
 }
 if (selectedsortFilter === "z-a") {
     // Sort games by their title alphabetically
     filteredGames = filteredGames.sort((a, b) => {
-        let titleA = a.title.toLowerCase();  // Convert to lowercase to ensure case-insensitive sorting
+        let titleA = a.title.toLowerCase();
         let titleB = b.title.toLowerCase();
         
-        if (titleB < titleA) return -1;  // `a` comes first
-        if (titleB > titleA) return 1;   // `b` comes first
-        return 0;  // Titles are equal
+        if (titleB < titleA) return -1; 
+        if (titleB > titleA) return 1;   
+        return 0; 
     });
 }
     displayImages(filteredGames);
-    // console.log(filteredGames);  // Log filtered games for debugging
 }
 
 
 function createCard(title, description) {
-    // Create a container with the 'row' class
-
-    // Create a column with grid classes
     const col = document.createElement('div');
     col.classList.add('col-12', 'col-sm-6', 'col-md-4', 'col-lg-3');
 
     const acol = document.createElement('div');
     acol.classList.add('card');
-    // Create the card body
     const card = document.createElement('div');
     card.classList.add('card-body');
     

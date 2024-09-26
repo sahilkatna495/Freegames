@@ -41,10 +41,14 @@ mydata();
 function displayImages(data) {
     const card = document.getElementById('card-create');
     card.innerHTML = '';
+        count =0;
         data.forEach(game => {
-            console.log(game.thumbnail);
-            const body = createCard(game.title, game.short_description ,game.thumbnail);
-            card.appendChild(body);
+            if(count <20){
+                console.log(game.thumbnail);
+                const body = createCard(game.title, game.short_description ,game.thumbnail);
+                card.appendChild(body);
+                count++;
+            }
     });
  
 } 
@@ -71,6 +75,7 @@ function yearFilterOptions(data){
     const yeardata =document.getElementById('release-year');
     const genreYear = {}; 
     yeardata.innerHTML='';
+ 
     data.forEach(game => {
         release_date =game.release_date;
         let mydate = new Date(release_date);

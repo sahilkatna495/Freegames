@@ -44,7 +44,6 @@ function displayImages(data) {
         count =0;
         data.forEach(game => {
             if(count <20){
-                console.log(game.thumbnail);
                 const body = createCard(game.title, game.short_description ,game.thumbnail);
                 card.appendChild(body);
                 count++;
@@ -126,23 +125,42 @@ function applyFilters(data) {
     }
     // Display the games that match both filters
 
-    if (selectedsortFilter === "a-z") {
+    if (selectedsortFilter === "oldest") {
+        console.log("this is new calue");
     // Sort games by their title alphabetically
     filteredGames = filteredGames.sort((a, b) => {
-        let titleA = a.title.toLowerCase(); 
-        let titleB = b.title.toLowerCase();
-        
-        if (titleA < titleB) return -1;  
-        if (titleA > titleB) return 1;  
+        let titleA = a.release_date; 
+        let titleB = b.release_date;
+        console.log(titleA);
+        if (titleB < titleA) return -1;  
+        if (titleB> titleA) return 1;  
         return 0;  
     });
 }
+if (selectedsortFilter === "newest") {
+
+    // Sort games by their release date (newest first)
+    filteredGames = filteredGames.sort((a, b) => {
+        let dateA = new Date(a.release_date); 
+        let dateB = new Date(b.release_date);
+        console.log(`Comparing: ${dateA} and ${dateB}`);
+        return dateB - dateA;  
+    });
+}
+
 if (selectedsortFilter === "z-a") {
     // Sort games by their title alphabetically
     filteredGames = filteredGames.sort((a, b) => {
+        let dateA = new Date(a.release_date); 
+        let dateB = new Date(b.release_date);
+        console.log(`Comparing: ${dateB} and ${dateA}`);
+        return dateB - dateA;  
+    });
+}
+if (selectedsortFilter === "a-z") {
+    filteredGames = filteredGames.sort((a, b) => {
         let titleA = a.title.toLowerCase();
         let titleB = b.title.toLowerCase();
-        
         if (titleB < titleA) return -1; 
         if (titleB > titleA) return 1;   
         return 0; 
@@ -164,7 +182,6 @@ function createCard(title, description ,imageurl) {
     const img = document.createElement('img');
     img.src = imageurl;
     img.classList.add('gallery-image');
-    console.log(img.src);
     const cardTitle = document.createElement('h5');
     cardTitle.classList.add('card-title');
     cardTitle.textContent = title;

@@ -12,6 +12,8 @@ async function mydata(){
     try {
         const response = await fetch(url, options);
         const result = await response.json();
+        perpage= 12;
+       
         displayImages(result);
         yearFilterOptions(result);
         categoryFilterOptions(result);

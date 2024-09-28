@@ -31,7 +31,12 @@ async function mydata(){
         document.getElementById('category_filter').addEventListener('change', function() {
             applyFilters(result); 
         });
-        
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('change', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredGames = result.filter(game => game.title.toLowerCase().includes(searchTerm));
+            displayImages(filteredGames);
+        });
     } catch (error) {
         console.error(error);
     }
@@ -173,7 +178,6 @@ if (selectedsortFilter === "a-z") {
 function createCard(title, description ,imageurl) {
     // console.log(imageurl);
     const col = document.createElement('div');
-
     col.classList.add('col-12', 'col-sm-6', 'col-md-4', 'col-lg-3');
     const acol = document.createElement('div');
     acol.classList.add('card');
@@ -184,8 +188,7 @@ function createCard(title, description ,imageurl) {
     img.classList.add('gallery-image');
     const cardTitle = document.createElement('h5');
     cardTitle.classList.add('card-title');
-    cardTitle.textContent = title;
-    
+    cardTitle.textContent = title; 
     const cardDesc = document.createElement('p');
     cardDesc.classList.add('card-text');
     cardDesc.textContent = description; 

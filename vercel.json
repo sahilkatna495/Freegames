@@ -7,7 +7,7 @@
       {
         "source": "/myto",
         "destination": "/pages/myto.html"
-      }
+      },
       {
         "source": "/detail",
         "destination": "/pages/detail.html"

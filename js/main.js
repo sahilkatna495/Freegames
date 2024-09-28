@@ -32,7 +32,7 @@ async function mydata(){
             applyFilters(result); 
         });
         const searchInput = document.getElementById('search-input');
-        searchInput.addEventListener('change', function() {
+        searchInput.addEventListener('input', function() {
             const searchTerm = searchInput.value.toLowerCase();
             const filteredGames = result.filter(game => game.title.toLowerCase().includes(searchTerm));
             displayImages(filteredGames);
@@ -188,7 +188,8 @@ function createCard(title, description ,imageurl) {
     img.classList.add('gallery-image');
     const cardTitle = document.createElement('h5');
     cardTitle.classList.add('card-title');
-    cardTitle.textContent = title; 
+    cardTitle.textContent = title;
+ 
     const cardDesc = document.createElement('p');
     cardDesc.classList.add('card-text');
     cardDesc.textContent = description; 

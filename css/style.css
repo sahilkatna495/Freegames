@@ -87,3 +87,9 @@
         }
         .pagination a {border:none;
         }
+
+        .description-title{
+        font-weight: 700;
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+        }

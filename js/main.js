@@ -49,7 +49,7 @@ function displayImages(data) {
         count =0;
         data.forEach(game => {
             if(count <20){
-                const body = createCard(game.title, game.short_description ,game.thumbnail);
+                const body = createCard(game.title, game.short_description ,game.thumbnail, game.id);
                 card.appendChild(body);
                 count++;
             }
@@ -175,30 +175,35 @@ if (selectedsortFilter === "a-z") {
 }
 
 
-function createCard(title, description ,imageurl) {
-    // console.log(imageurl);
+function createCard(title, description, imageurl, id) {
     const col = document.createElement('div');
     col.classList.add('col-12', 'col-sm-6', 'col-md-4', 'col-lg-3');
-    const acol = document.createElement('div');
-    acol.classList.add('card');
+
+    const anchor = document.createElement('a');
+    anchor.href = `file:///C:/Users/FWS-22-4/drupal%20project/projects/Freegamesfront/Freegames/pages/detail.html?id=${id}&title=${encodeURIComponent(title)}&image=${encodeURIComponent(imageurl)}&description=${encodeURIComponent(description)}`;
+        anchor.classList.add('card');  
+    anchor.style.textDecoration = 'none';  
+
     const card = document.createElement('div');
     card.classList.add('card-body');
+
     const img = document.createElement('img');
     img.src = imageurl;
-    img.classList.add('gallery-image');
+    img.classList.add('gallery-image', 'card-img-top');
+
     const cardTitle = document.createElement('h5');
     cardTitle.classList.add('card-title');
     cardTitle.textContent = title;
- 
+
     const cardDesc = document.createElement('p');
     cardDesc.classList.add('card-text');
-    cardDesc.textContent = description; 
+    cardDesc.textContent = description;
+
     card.appendChild(img);
     card.appendChild(cardTitle);
     card.appendChild(cardDesc);
-    acol.appendChild((card));
-    // Append the card to the column, then the column to the row
-    col.appendChild(acol);
+    anchor.appendChild(card);  
+    col.appendChild(anchor);  
 
     return col;
 }

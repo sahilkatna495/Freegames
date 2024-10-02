@@ -62,7 +62,7 @@
             <!-- Left side: Image, buttons, and icons -->
             <div class="col-3">
                 <!-- Image -->
-                <img src="../images/thumbnail.jpg" alt="Placeholder Image" class="img-fluid mb-3">
+                <img id="game-image" src="" alt="Game Image" class="img-fluid mb-3">
                 
                 <!-- Buttons in the same row -->
                 <div class="d-flex justify-content-between mb-3">
@@ -82,9 +82,9 @@
             <div class="col-9">
                 <!-- Header and description -->
                 <div>
-                    <h4 class="description-title display-4 font-weight-bold">One Punch Man: World</h4>
+                    <h4 class="description-title display-4 font-weight-bold game-title" id="game-title">One Punch Man: World</h4>
                     <div class="border border-secondary p-4 my-5 rounded">
-                        <p>Train, explore, fight monsters... you know what to do!</p>
+                        <p id="game-description"></p>
                     </div>
                 </div>
     
@@ -92,9 +92,7 @@
                 <div class="content">
                     <h4 class="h2 font-weight-bold mb-2">About This Game</h4>
                     <div>
-                        <p class="text-justify">A sinister wave of monsters has attacked Earth's cities and the Hero Association is scrambling to defend the world...</p>
-                        <p class="text-justify">Utilizing an action combat system where dodging is important and intricate combos can really pay off...</p>
-                        <p class="text-justify">In One Punch Man: World, players can embody iconic characters from the anime, including fan favorites like Genos...</p>
+                        <p class="text-justify" >A sinister wave of monsters has attacked Earth's cities and the Hero Association is scrambling to defend the world...</p>
                     </div>
                 </div>
     
@@ -183,7 +181,25 @@
         </footer>
         </div>
     </div>
+    <script>
+        // Function to get URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                id: params.get('id'),
+                title: params.get('title'),
+                image: params.get('image'),
+                description: params.get('description')
+            };
+        }
 
+        // Populate the page with the game details
+        const gameData = getUrlParams();
+
+        document.getElementById('game-title').textContent = decodeURIComponent(gameData.title);
+        document.getElementById('game-image').src = decodeURIComponent(gameData.image);
+        document.getElementById('game-description').textContent = decodeURIComponent(gameData.description);
+    </script>
 </body>
 </html>
  

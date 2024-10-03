@@ -12,8 +12,7 @@ async function mydata(){
     try {
         const response = await fetch(url, options);
         const result = await response.json();
-        perpage= 12;
-       
+        perpage= 12; 
         displayImages(result);
         yearFilterOptions(result);
         categoryFilterOptions(result);
@@ -42,12 +41,12 @@ async function mydata(){
     }
 }
 mydata();
-
 function displayImages(data) {
     const card = document.getElementById('card-create');
     card.innerHTML = '';
         count =0;
         data.forEach(game => {
+            console.log(game);
             if(count <20){
                 const body = createCard(game.title, game.short_description ,game.thumbnail, game.id);
                 card.appendChild(body);
@@ -178,32 +177,20 @@ if (selectedsortFilter === "a-z") {
 function createCard(title, description, imageurl, id) {
     const col = document.createElement('div');
     col.classList.add('col-12', 'col-sm-6', 'col-md-4', 'col-lg-3');
-
-    const anchor = document.createElement('a');
-    anchor.href = `file:///C:/Users/FWS-22-4/drupal%20project/projects/Freegamesfront/Freegames/pages/detail.html?id=${id}&title=${encodeURIComponent(title)}&image=${encodeURIComponent(imageurl)}&description=${encodeURIComponent(description)}`;
-        anchor.classList.add('card');  
-    anchor.style.textDecoration = 'none';  
-
     const card = document.createElement('div');
     card.classList.add('card-body');
-
     const img = document.createElement('img');
     img.src = imageurl;
     img.classList.add('gallery-image', 'card-img-top');
-
     const cardTitle = document.createElement('h5');
     cardTitle.classList.add('card-title');
     cardTitle.textContent = title;
-
     const cardDesc = document.createElement('p');
     cardDesc.classList.add('card-text');
     cardDesc.textContent = description;
-
     card.appendChild(img);
     card.appendChild(cardTitle);
     card.appendChild(cardDesc);
-    anchor.appendChild(card);  
-    col.appendChild(anchor);  
-
+    col.appendChild(card);  
     return col;
 }

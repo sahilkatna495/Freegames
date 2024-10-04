@@ -177,6 +177,10 @@ if (selectedsortFilter === "a-z") {
 function createCard(title, description, imageurl, id) {
     const col = document.createElement('div');
     col.classList.add('col-12', 'col-sm-6', 'col-md-4', 'col-lg-3');
+
+    const cardLink = document.createElement('a');
+    cardLink.href = `/detail/${id}`; // Dynamic URL for each card
+    cardLink.classList.add('card-link');
     const card = document.createElement('div');
     card.classList.add('card-body');
     const img = document.createElement('img');
@@ -191,6 +195,7 @@ function createCard(title, description, imageurl, id) {
     card.appendChild(img);
     card.appendChild(cardTitle);
     card.appendChild(cardDesc);
-    col.appendChild(card);  
+    cardLink.appendChild(card);
+    col.appendChild(cardLink);  
     return col;
 }

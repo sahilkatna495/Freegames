@@ -23,6 +23,8 @@
         .filter-section .form-select {
             margin-bottom: 15px;
              color: hsla(45, 100%, 50%, 0.7);
+             background-color: hsl(0, 0%, 10%); /* Dark gray */
+
         }
         .btn-clear, .btn-more {
             display: inline-flex;
@@ -58,6 +60,17 @@
         .card img {
             width: 100%;
             border-radius: 10px;
+        }
+        .card-text {
+            color: #fff;
+            padding:5px 0;
+        }
+        .card-link {
+            text-decoration: none;
+        }
+        .card-title{
+            color: #fff;
+            padding:5px 0;
         }
         .pagination {
             margin: 20px 0;

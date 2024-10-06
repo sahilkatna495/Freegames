@@ -180,7 +180,7 @@ function createCard(title, description, imageurl, id) {
 
     const cardLink = document.createElement('a');
     cardLink.href = `/detail/${id}`; // Dynamic URL for each card
-    cardLink.classList.add('card-link');
+    cardLink.classList.add('card-link', 'card');
     const card = document.createElement('div');
     card.classList.add('card-body');
     const img = document.createElement('img');

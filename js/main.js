@@ -1,4 +1,6 @@
-//call game api to get the data       
+//call game api to get the data      
+let currentPage = 1;
+let itemsPerPage = 20; 
 async function mydata(){
     const url = 'https://free-to-play-games-database.p.rapidapi.com/api/games';
     const options = {
@@ -16,6 +18,7 @@ async function mydata(){
         displayImages(result);
         yearFilterOptions(result);
         categoryFilterOptions(result);
+        setupPagination(result); // Setup pagination buttons
         console.log(result);    
         document.getElementById('release-year').addEventListener('change', function() {
             applyFilters(result); 
@@ -41,11 +44,14 @@ async function mydata(){
     }
 }
 mydata();
-function displayImages(data) {
+function displayImages(data ,page = 1) {
     const card = document.getElementById('card-create');
     card.innerHTML = '';
         count =0;
-        data.forEach(game => {
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedData = data.slice(startIndex, endIndex);
+        paginatedData.forEach(game => {
             console.log(game);
             if(count <20){
                 const body = createCard(game.title, game.short_description ,game.thumbnail, game.id);
@@ -55,6 +61,59 @@ function displayImages(data) {
     });
  
 } 
+function setupPagination(data ) {
+    const totalItems = data.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    
+    const pagination = document.querySelector('.pagination');
+    pagination.innerHTML = ''; // Clear previous pagination buttons
+    
+    // Create "Prev" button
+    const prevButton = document.createElement('li');
+    prevButton.classList.add('page-item');
+    prevButton.innerHTML = `<a class="page-link" href="#">Prev</a>`;
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            displayImages(data, currentPage);
+            setupPagination(data);
+        }
+    });
+    pagination.appendChild(prevButton);
+    
+    // Create page numbers
+    for (let i = 1; i <= totalPages; i++) {
+        const pageItem = document.createElement('li');
+        pageItem.classList.add('page-item');
+        
+        // Only add 'active' class if i equals currentPage
+        if (i === currentPage) {
+            pageItem.classList.add('active');
+        }
+    
+        pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        pageItem.addEventListener('click', () => {
+            currentPage = i;
+            displayImages(data, currentPage);
+            setupPagination(data);
+        });
+    
+        pagination.appendChild(pageItem);
+    }
+
+    // Create "Next" button
+    const nextButton = document.createElement('li');
+    nextButton.classList.add('page-item');
+    nextButton.innerHTML = `<a class="page-link" href="#">Next</a>`;
+    nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayImages(data, currentPage);
+            setupPagination(data);
+        }
+    });
+    pagination.appendChild(nextButton);
+}
 
 //create a gilter function in option value
 
@@ -170,7 +229,8 @@ if (selectedsortFilter === "a-z") {
         return 0; 
     });
 }
-    displayImages(filteredGames);
+displayImages(filteredGames, currentPage);
+setupPagination(filteredGames); // Update pagination after filtering
 }
 
 
@@ -199,3 +259,4 @@ function createCard(title, description, imageurl, id) {
     col.appendChild(cardLink);  
     return col;
 }
+

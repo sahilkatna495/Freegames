@@ -61,13 +61,17 @@ function displayImages(data ,page = 1) {
     });
  
 } 
-function setupPagination(data ) {
+function setupPagination(data) {
     const totalItems = data.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     
     const pagination = document.querySelector('.pagination');
     pagination.innerHTML = ''; // Clear previous pagination buttons
     
+    const maxPagesToShow = 5; // Max pages to show at a time
+    const firstPage = 1;
+    const lastPage = totalPages;
+
     // Create "Prev" button
     const prevButton = document.createElement('li');
     prevButton.classList.add('page-item');
@@ -80,25 +84,37 @@ function setupPagination(data ) {
         }
     });
     pagination.appendChild(prevButton);
-    
-    // Create page numbers
-    for (let i = 1; i <= totalPages; i++) {
-        const pageItem = document.createElement('li');
-        pageItem.classList.add('page-item');
-        
-        // Only add 'active' class if i equals currentPage
-        if (i === currentPage) {
-            pageItem.classList.add('active');
-        }
-    
-        pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-        pageItem.addEventListener('click', () => {
-            currentPage = i;
-            displayImages(data, currentPage);
-            setupPagination(data);
-        });
-    
-        pagination.appendChild(pageItem);
+
+    // Show first page always
+    createPageButton(firstPage, data, pagination);
+
+    // Handle pagination truncation (like showing "...")
+    if (currentPage > maxPagesToShow) {
+        const dots = document.createElement('li');
+        dots.classList.add('page-item');
+        dots.innerHTML = `<a class="page-link">...</a>`;
+        pagination.appendChild(dots);
+    }
+
+    // Show range of pages around the current page
+    const startPage = Math.max(2, currentPage - 2);  // Show up to 2 pages before the current
+    const endPage = Math.min(totalPages - 1, currentPage + 2);  // Show up to 2 pages after the current
+
+    for (let i = startPage; i <= endPage; i++) {
+        createPageButton(i, data, pagination);
+    }
+
+    // Handle pagination truncation before the last page
+    if (currentPage < totalPages - maxPagesToShow + 1) {
+        const dots = document.createElement('li');
+        dots.classList.add('page-item');
+        dots.innerHTML = `<a class="page-link">...</a>`;
+        pagination.appendChild(dots);
+    }
+
+    // Always show last page
+    if (totalPages > 1) {
+        createPageButton(lastPage, data, pagination);
     }
 
     // Create "Next" button
@@ -114,6 +130,26 @@ function setupPagination(data ) {
     });
     pagination.appendChild(nextButton);
 }
+
+function createPageButton(page, data, pagination) {
+    const pageItem = document.createElement('li');
+    pageItem.classList.add('page-item');
+    
+    // Add 'active' class if this is the current page
+    if (page === currentPage) {
+        pageItem.classList.add('active');
+    }
+    
+    pageItem.innerHTML = `<a class="page-link" href="#">${page}</a>`;
+    pageItem.addEventListener('click', () => {
+        currentPage = page;
+        displayImages(data, currentPage);
+        setupPagination(data);
+    });
+    
+    pagination.appendChild(pageItem);
+}
+
 
 //create a gilter function in option value
 

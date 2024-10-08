@@ -19,6 +19,7 @@ async function mydata(){
         yearFilterOptions(result);
         categoryFilterOptions(result);
         setupPagination(result); // Setup pagination buttons
+        console.log(result);    
         document.getElementById('release-year').addEventListener('change', function() {
             applyFilters(result); 
         });
@@ -51,6 +52,7 @@ function displayImages(data ,page = 1) {
         const endIndex = startIndex + itemsPerPage;
         const paginatedData = data.slice(startIndex, endIndex);
         paginatedData.forEach(game => {
+            console.log(game);
             if(count <20){
                 const body = createCard(game.title, game.short_description ,game.thumbnail, game.id);
                 card.appendChild(body);
@@ -77,6 +79,7 @@ function setupPagination(data) {
     prevButton.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
+            updateUrlWithPage(currentPage);
             displayImages(data, currentPage);
             setupPagination(data);
         }
@@ -122,6 +125,7 @@ function setupPagination(data) {
     nextButton.addEventListener('click', () => {
         if (currentPage < totalPages) {
             currentPage++;
+            updateUrlWithPage(currentPage);
             displayImages(data, currentPage);
             setupPagination(data);
         }
@@ -141,12 +145,28 @@ function createPageButton(page, data, pagination) {
     pageItem.innerHTML = `<a class="page-link" href="#">${page}</a>`;
     pageItem.addEventListener('click', () => {
         currentPage = page;
+        updateUrlWithPage(currentPage);
         displayImages(data, currentPage);
         setupPagination(data);
     });
     
     pagination.appendChild(pageItem);
 }
+function updateUrlWithPage(page) {
+    const url = new URL(window.location);
+    url.searchParams.set('page', page); // Update the 'page' parameter
+    history.pushState({}, '', url); // Update the URL without reloading
+}
+function getPageFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const page = parseInt(params.get('page')) || 1; // Default to page 1 if no 'page' param
+    return page;
+}
+
+window.addEventListener('load', () => {
+    currentPage = getPageFromUrl(); // Set currentPage based on the URL
+    mydata(); // Call the data loading function and display the correct page
+});
 
 
 //create a gilter function in option value
@@ -155,92 +175,37 @@ function createPageButton(page, data, pagination) {
 function  categoryFilterOptions(data){
     const filter = document.getElementById('category_filter');
     const genreMap = {};  
-    const catArray = []; 
-    filter.innerHTML = '';
-    const allOption = document.createElement('option');
-    allOption.value = ''; // Set value to empty string to represent 'All'
-    allOption.text = 'All cat';
-    filter.appendChild(allOption);
-
+    filter.innerHTML = ''; 
     data.forEach(game => {
         if (!genreMap[game.genre]) {
-        // const option = document.createElement('option');
-        // option.value = game.genre;
-        // option.text = game.genre;
-        // filter.appendChild(option);
-        genreMap[game.genre] = true;
-         catArray.push(game.genre);
-         console.log(catArray);
-        }
-    });
-    catArray.sort((a, b) => {
-        return a.localeCompare(b);  // Correct sorting for strings
-    });
-    catArray.forEach((genre) => {
         const option = document.createElement('option');
-        option.value = genre;  // Use 'genre' from the array
-        option.text = genre;
+        option.value = game.genre;
+        option.text = game.genre;
         filter.appendChild(option);
+        genreMap[game.genre] = true;
+        }
     });
 }
 
-// function yearFilterOptions(data){
-//     const yeardata =document.getElementById('release-year');
-//     const genreYear = {}; 
-//     yeardata.innerHTML='';
- 
-//     data.forEach(game => {
-//         release_date =game.release_date;
-//         let mydate = new Date(release_date);
-//         let year_dsata = mydate.getFullYear(); 
-
-//         if (!genreYear[year_dsata] && !isNaN(year_dsata)) {
-//             const option = document.createElement('option');
-//             option.value = year_dsata;
-//             option.text = year_dsata;
-//             yeardata.appendChild(option);
-//             genreYear[year_dsata] = true;
-//         }
-//     });
-// }
-function yearFilterOptions(data) {
-    const yeardata = document.getElementById('release-year');
+function yearFilterOptions(data){
+    const yeardata =document.getElementById('release-year');
     const genreYear = {}; 
-    yeardata.innerHTML = '';
-    const yearsArray = []; 
-    // Add the default 'All' option
-    const allOption = document.createElement('option');
-    allOption.value = ''; // Set value to empty string to represent 'All'
-    allOption.text = 'All';
-    yeardata.appendChild(allOption);
-
-    // Create the rest of the year options
+    yeardata.innerHTML='';
+ 
     data.forEach(game => {
-        release_date = game.release_date;
+        release_date =game.release_date;
         let mydate = new Date(release_date);
-        let year_dsata = mydate.getFullYear();
+        let year_dsata = mydate.getFullYear(); 
 
         if (!genreYear[year_dsata] && !isNaN(year_dsata)) {
-            // const option = document.createElement('option');
-            // option.value = year_dsata;
-            // option.text = year_dsata;
-            // yeardata.appendChild(option);
-            // genreYear[year_dsata] = true;
-            genreYear[year_dsata] = true; 
-            yearsArray.push(year_dsata);
+            const option = document.createElement('option');
+            option.value = year_dsata;
+            option.text = year_dsata;
+            yeardata.appendChild(option);
+            genreYear[year_dsata] = true;
         }
     });
-    yearsArray.sort((a, b) => b - a);
-
-    // Append sorted years to the dropdown
-    yearsArray.forEach(year => {
-        const option = document.createElement('option');
-        option.value = year;
-        option.text = year;
-        yeardata.appendChild(option);
-    });
 }
-
 
 function applyFilters(data) {
     const selectedYear = document.getElementById('release-year').value;
@@ -278,11 +243,12 @@ function applyFilters(data) {
     // Display the games that match both filters
 
     if (selectedsortFilter === "oldest") {
-     
+        console.log("this is new calue");
     // Sort games by their title alphabetically
     filteredGames = filteredGames.sort((a, b) => {
         let titleA = a.release_date; 
         let titleB = b.release_date;
+        console.log(titleA);
         if (titleB < titleA) return -1;  
         if (titleB> titleA) return 1;  
         return 0;  
@@ -294,6 +260,7 @@ if (selectedsortFilter === "newest") {
     filteredGames = filteredGames.sort((a, b) => {
         let dateA = new Date(a.release_date); 
         let dateB = new Date(b.release_date);
+        console.log(`Comparing: ${dateA} and ${dateB}`);
         return dateB - dateA;  
     });
 }
@@ -303,6 +270,7 @@ if (selectedsortFilter === "z-a") {
     filteredGames = filteredGames.sort((a, b) => {
         let dateA = new Date(a.release_date); 
         let dateB = new Date(b.release_date);
+        console.log(`Comparing: ${dateB} and ${dateA}`);
         return dateB - dateA;  
     });
 }

@@ -59,75 +59,7 @@ function displayImages(data ,page = 1) {
     });
  
 } 
-function setupPagination(data) {
-    const totalItems = data.length;
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    
-    const pagination = document.querySelector('.pagination');
-    pagination.innerHTML = ''; // Clear previous pagination buttons
-    
-    const maxPagesToShow = 5; // Max pages to show at a time
-    const firstPage = 1;
-    const lastPage = totalPages;
 
-    // Create "Prev" button
-    const prevButton = document.createElement('li');
-    prevButton.classList.add('page-item');
-    prevButton.innerHTML = `<a class="page-link" href="#">Prev</a>`;
-    prevButton.addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            displayImages(data, currentPage);
-            setupPagination(data);
-        }
-    });
-    pagination.appendChild(prevButton);
-
-    // Show first page always
-    createPageButton(firstPage, data, pagination);
-
-    // Handle pagination truncation (like showing "...")
-    if (currentPage > maxPagesToShow) {
-        const dots = document.createElement('li');
-        dots.classList.add('page-item');
-        dots.innerHTML = `<a class="page-link">...</a>`;
-        pagination.appendChild(dots);
-    }
-
-    // Show range of pages around the current page
-    const startPage = Math.max(2, currentPage - 2);  // Show up to 2 pages before the current
-    const endPage = Math.min(totalPages - 1, currentPage + 2);  // Show up to 2 pages after the current
-
-    for (let i = startPage; i <= endPage; i++) {
-        createPageButton(i, data, pagination);
-    }
-
-    // Handle pagination truncation before the last page
-    if (currentPage < totalPages - maxPagesToShow + 1) {
-        const dots = document.createElement('li');
-        dots.classList.add('page-item');
-        dots.innerHTML = `<a class="page-link">...</a>`;
-        pagination.appendChild(dots);
-    }
-
-    // Always show last page
-    if (totalPages > 1) {
-        createPageButton(lastPage, data, pagination);
-    }
-
-    // Create "Next" button
-    const nextButton = document.createElement('li');
-    nextButton.classList.add('page-item');
-    nextButton.innerHTML = `<a class="page-link" href="#">Next</a>`;
-    nextButton.addEventListener('click', () => {
-        if (currentPage < totalPages) {
-            currentPage++;
-            displayImages(data, currentPage);
-            setupPagination(data);
-        }
-    });
-    pagination.appendChild(nextButton);
-}
 
 function createPageButton(page, data, pagination) {
     const pageItem = document.createElement('li');
@@ -241,83 +173,149 @@ function yearFilterOptions(data) {
     });
 }
 
-
-function applyFilters(data) {
-    const selectedYear = document.getElementById('release-year').value;
-    const selectedCategory = document.getElementById('category_filter').value;
-    const selectedPlatform = document.getElementById('platform').value;
-    const selectedsortFilter = document.getElementById('sort-by').value;
+// Function to update URL parameters based on current filters
+function updateURLParams() {
+    const urlParams = new URLSearchParams();
     
-    let filteredGames = data;
-    if (selectedYear) {
-        filteredGames = filteredGames.filter(game => {
-            let releaseDate = new Date(game.release_date);  
-            let releaseYear = releaseDate.getFullYear();
-            return releaseYear == selectedYear;
-        });
-    }
-    if (selectedCategory) {
-        filteredGames = filteredGames.filter(game =>
-            game.genre === selectedCategory); 
-    }
-
-    if (selectedPlatform === "pc") {
-        filteredGames = filteredGames.filter(game => {
-       
-            let gameplatformpc = game.platform; 
-            return gameplatformpc === "PC (Windows)"; 
-        });
-    }
+    // Get the values from the filter inputs
+    const year = document.getElementById('release-year').value;
+    const category = document.getElementById('category_filter').value;
+    const platform = document.getElementById('platform').value;
+    const sortBy = document.getElementById('sort-by').value;
     
-    if (selectedPlatform === "browser") {
-        filteredGames = filteredGames.filter(game => {
-            let gameplatformpc = game.platform;  
-            return gameplatformpc === "Web Browser"; 
-        });
+    // Set the URL parameters if the values are not empty
+    if (year) urlParams.set('year', year);
+    if (category) urlParams.set('category', category);
+    if (platform) urlParams.set('platform', platform);
+    if (sortBy) urlParams.set('sort', sortBy);
+    
+    // Set the current page parameter
+    urlParams.set('page', currentPage);
+    
+    // Update the URL without reloading the page
+    const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+    window.history.pushState(null, '', newUrl);
+}
+
+// Function to apply filters and fetch data
+function applyFilters() {
+    updateURLParams(); // Update the URL parameters
+    mydata(); // Fetch and display data based on the current filters
+}
+
+// Function to fetch data based on URL parameters
+
+
+// Event listener for page load
+window.addEventListener('load', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    currentPage = parseInt(urlParams.get('page')) || 1;
+
+    // Set filter values based on URL parameters
+    document.getElementById('release-year').value = urlParams.get('year') || '';
+    document.getElementById('category_filter').value = urlParams.get('category') || '';
+    document.getElementById('platform').value = urlParams.get('platform') || '';
+    document.getElementById('sort-by').value = urlParams.get('sort') || '';
+
+    mydata(); // Fetch and display data based on URL parameters
+});
+
+// Add event listeners to filter elements for changes
+document.getElementById('release-year').addEventListener('change', applyFilters);
+document.getElementById('category_filter').addEventListener('change', applyFilters);
+document.getElementById('platform').addEventListener('change', applyFilters);
+document.getElementById('sort-by').addEventListener('change', applyFilters);
+
+// Example of handling page number change (assuming you have buttons or links for pagination)
+document.querySelectorAll('.pagination-button').forEach(button => {
+    button.addEventListener('click', (e) => {
+        currentPage = parseInt(e.target.dataset.page);
+        applyFilters(); // Update filters and fetch data based on the new page
+    });
+});
+
+
+
+
+// Update the setupPagination function to keep pagination in sync with the URL
+function setupPagination(data) {
+    const totalItems = data.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    const pagination = document.querySelector('.pagination');
+    pagination.innerHTML = ''; // Clear previous pagination buttons
+
+    const maxPagesToShow = 5;
+    const firstPage = 1;
+    const lastPage = totalPages;
+
+    // Create "Prev" button
+    const prevButton = document.createElement('li');
+    prevButton.classList.add('page-item');
+    prevButton.innerHTML = `<a class="page-link" href="#">Prev</a>`;
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            displayImages(data, currentPage);
+            setupPagination(data);
+            updateURLParams(); // Update URL with pagination change
+        }
+    });
+    pagination.appendChild(prevButton);
+
+    createPageButton(firstPage, data, pagination);
+
+    if (currentPage > maxPagesToShow) {
+        const dots = document.createElement('li');
+        dots.classList.add('page-item');
+        dots.innerHTML = `<a class="page-link">...</a>`;
+        pagination.appendChild(dots);
     }
-    // Display the games that match both filters
 
-    if (selectedsortFilter === "oldest") {
-     
-    // Sort games by their title alphabetically
-    filteredGames = filteredGames.sort((a, b) => {
-        let titleA = a.release_date; 
-        let titleB = b.release_date;
-        if (titleB < titleA) return -1;  
-        if (titleB> titleA) return 1;  
-        return 0;  
-    });
-}
-if (selectedsortFilter === "newest") {
+    const startPage = Math.max(2, currentPage - 2);
+    const endPage = Math.min(totalPages - 1, currentPage + 2);
 
-    // Sort games by their release date (newest first)
-    filteredGames = filteredGames.sort((a, b) => {
-        let dateA = new Date(a.release_date); 
-        let dateB = new Date(b.release_date);
-        return dateB - dateA;  
+    for (let i = startPage; i <= endPage; i++) {
+        createPageButton(i, data, pagination);
+    }
+
+    if (currentPage < totalPages - maxPagesToShow + 1) {
+        const dots = document.createElement('li');
+        dots.classList.add('page-item');
+        dots.innerHTML = `<a class="page-link">...</a>`;
+        pagination.appendChild(dots);
+    }
+
+    if (totalPages > 1) {
+        createPageButton(lastPage, data, pagination);
+    }
+
+    const nextButton = document.createElement('li');
+    nextButton.classList.add('page-item');
+    nextButton.innerHTML = `<a class="page-link" href="#">Next</a>`;
+    nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayImages(data, currentPage);
+            setupPagination(data);
+            updateURLParams(); // Update URL with pagination change
+        }
     });
+    pagination.appendChild(nextButton);
 }
 
-if (selectedsortFilter === "z-a") {
-    // Sort games by their title alphabetically
-    filteredGames = filteredGames.sort((a, b) => {
-        let dateA = new Date(a.release_date); 
-        let dateB = new Date(b.release_date);
-        return dateB - dateA;  
-    });
-}
-if (selectedsortFilter === "a-z") {
-    filteredGames = filteredGames.sort((a, b) => {
-        let titleA = a.title.toLowerCase();
-        let titleB = b.title.toLowerCase();
-        if (titleB < titleA) return -1; 
-        if (titleB > titleA) return 1;   
-        return 0; 
-    });
-}
-displayImages(filteredGames, currentPage);
-setupPagination(filteredGames); // Update pagination after filtering
-}
+// Read filters and pagination from URL on page load
+window.addEventListener('load', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    currentPage = parseInt(urlParams.get('page')) || 1;
+
+    document.getElementById('release-year').value = urlParams.get('year') || '';
+    document.getElementById('category_filter').value = urlParams.get('category') || '';
+    document.getElementById('platform').value = urlParams.get('platform') || '';
+    document.getElementById('sort-by').value = urlParams.get('sort') || '';
+
+    mydata(); // Fetch and display data
+});
 
 
 function createCard(title, description, imageurl, id) {
@@ -345,4 +343,15 @@ function createCard(title, description, imageurl, id) {
     col.appendChild(cardLink);  
     return col;
 }
+window.addEventListener('load', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    currentPage = parseInt(urlParams.get('page')) || 1;
+
+    document.getElementById('release-year').value = urlParams.get('year') || '';
+    document.getElementById('category_filter').value = urlParams.get('category') || '';
+    document.getElementById('platform').value = urlParams.get('platform') || '';
+    document.getElementById('sort-by').value = urlParams.get('sort') || '';
+
+    mydata(); // Fetch and display data
+});
 

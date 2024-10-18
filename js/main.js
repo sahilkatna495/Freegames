@@ -366,7 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Get the game ID from the URL
     const urlParams = new URLSearchParams(window.location.search);
     const gameId = urlParams.get('id');
-
+    console.log(gameId);
     // Check if the game ID is available
     if (!gameId) {
         console.error("Game ID not found in the URL.");

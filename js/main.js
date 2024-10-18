@@ -366,50 +366,69 @@ document.addEventListener('DOMContentLoaded', () => {
     // Get the game ID from the URL
     const urlParams = new URLSearchParams(window.location.search);
     const gameId = urlParams.get('id');
-    console.log(gameId);
+    
     // Check if the game ID is available
     if (!gameId) {
         console.error("Game ID not found in the URL.");
         return;
     }
 
-    // Construct the API URL with the dynamic game ID
+    // Fetch the game data using the dynamic game ID
+    fetchGameData(gameId);
+});
+
+// Function to fetch game data
+async function fetchGameData(gameId) {
     const apiUrl = `https://free-to-play-games-database.p.rapidapi.com/api/game?id=${gameId}`;
     const apiHeaders = {
         "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY", // Replace with your actual RapidAPI key
         "X-RapidAPI-Host": "free-to-play-games-database.p.rapidapi.com"
     };
 
-    // Fetch the game data from the API
-    fetch(apiUrl, { headers: apiHeaders })
-        .then(response => response.json())
-        .then(data => {
-            // Populate game details
-            document.getElementById('game-title').textContent = data.title;
-            document.getElementById('game-short-description').textContent = data.short_description;
-            document.getElementById('game-description').textContent = data.description;
-            document.getElementById('game-image').src = data.thumbnail;
-            document.getElementById('game-image').alt = data.title;
+    try {
+        const response = await fetch(apiUrl, { headers: apiHeaders });
+        const data = await response.json();
+        
+        // Check if data is received correctly
+        if (data) {
+            populateGameDetails(data);
+        } else {
+            console.error("No game data found.");
+        }
+    } catch (error) {
+        console.error("Error fetching game data:", error);
+    }
+}
 
-            // Populate system requirements (if available)
-            if (data.minimum_system_requirements) {
-                document.getElementById('os-requirement').textContent = data.minimum_system_requirements.os;
-                document.getElementById('processor-requirement').textContent = data.minimum_system_requirements.processor;
-                document.getElementById('memory-requirement').textContent = data.minimum_system_requirements.memory;
-            } else {
-                document.getElementById('os-requirement').textContent = "N/A";
-                document.getElementById('processor-requirement').textContent = "N/A";
-                document.getElementById('memory-requirement').textContent = "N/A";
-            }
+// Function to populate game details in the UI
+function populateGameDetails(data) {
+    // Populate basic game details
+    document.getElementById('game-title').textContent = data.title;
+    document.getElementById('game-short-description').textContent = data.short_description;
+    document.getElementById('game-description').textContent = data.description;
+    document.getElementById('game-image').src = data.thumbnail;
+    document.getElementById('game-image').alt = data.title;
 
-            // Populate more info section
-            document.getElementById('developer-info').textContent = data.developer;
-            document.getElementById('publisher-info').textContent = data.publisher;
-            document.getElementById('release-date-info').textContent = data.release_date;
-        })
-        .catch(error => {
-            console.error("Error fetching game data:", error);
-        });
-});
+    // Populate system requirements (if available)
+    if (data.minimum_system_requirements) {
+        document.getElementById('os-requirement').textContent = data.minimum_system_requirements.os || "N/A";
+        document.getElementById('processor-requirement').textContent = data.minimum_system_requirements.processor || "N/A";
+        document.getElementById('memory-requirement').textContent = data.minimum_system_requirements.memory || "N/A";
+    } else {
+        setDefaultSystemRequirements();
+    }
+
+    // Populate additional game information
+    document.getElementById('developer-info').textContent = data.developer || "Unknown";
+    document.getElementById('publisher-info').textContent = data.publisher || "Unknown";
+    document.getElementById('release-date-info').textContent = data.release_date || "Unknown";
+}
+
+// Function to set default system requirements if data is not available
+function setDefaultSystemRequirements() {
+    document.getElementById('os-requirement').textContent = "N/A";
+    document.getElementById('processor-requirement').textContent = "N/A";
+    document.getElementById('memory-requirement').textContent = "N/A";
+}
 
 

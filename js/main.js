@@ -363,7 +363,18 @@ window.addEventListener('load', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const apiUrl = "https://free-to-play-games-database.p.rapidapi.com/api/game?id=452";
+    // Get the game ID from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const gameId = urlParams.get('id');
+
+    // Check if the game ID is available
+    if (!gameId) {
+        console.error("Game ID not found in the URL.");
+        return;
+    }
+
+    // Construct the API URL with the dynamic game ID
+    const apiUrl = `https://free-to-play-games-database.p.rapidapi.com/api/game?id=${gameId}`;
     const apiHeaders = {
         "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY", // Replace with your actual RapidAPI key
         "X-RapidAPI-Host": "free-to-play-games-database.p.rapidapi.com"
@@ -400,4 +411,5 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Error fetching game data:", error);
         });
 });
+
 

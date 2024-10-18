@@ -1,17 +1,16 @@
 {
-    "rewrites": [
-      {
-        "source": "/",
-        "destination": "/pages/index.html"
-      },
-      {
-        "source": "/myto",
-        "destination": "/pages/myto.html"
-      },
-      {
-        "source": "/detail",
-        "destination": "/pages/detail.html"
-      }
-    ]
-  }
-  
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/pages/index.html"
+    },
+    {
+      "source": "/myto",
+      "destination": "/pages/myto.html"
+    },
+    {
+      "source": "/detail/:id",
+      "destination": "/pages/detail.html"
+    }
+  ]
+}

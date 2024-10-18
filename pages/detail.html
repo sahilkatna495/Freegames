@@ -57,7 +57,7 @@
     </div>
 </nav> 
 <body>
-    <div class="container mt-5">
+    <!-- <div class="container mt-5">
         <div class="row">
             <!-- Left side: Image, buttons, and icons -->
             <div class="col-3">
@@ -167,7 +167,10 @@
                         </div>
                     </div>
                 </div>
-        </div>
+        </div> -->
+        <h1 id="game-title">Game Title</h1>
+<img id="game-thumbnail" alt="Game Thumbnail">
+<p id="game-status">Game Status</p>
         <footer>
             <div class="container">
                 <img src="..\images\logo-sm.png" alt="Footer Logo">
@@ -181,25 +184,6 @@
         </footer>
         </div>
     </div>
-    <script>
-        // Function to get URL parameters
-        function getUrlParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                id: params.get('id'),
-                title: params.get('title'),
-                image: params.get('image'),
-                description: params.get('description')
-            };
-        }
-
-        // Populate the page with the game details
-        const gameData = getUrlParams();
-
-        document.getElementById('game-title').textContent = decodeURIComponent(gameData.title);
-        document.getElementById('game-image').src = decodeURIComponent(gameData.image);
-        document.getElementById('game-description').textContent = decodeURIComponent(gameData.description);
-    </script>
 </body>
 </html>
  

@@ -325,24 +325,31 @@ function createCard(title, description, imageurl, id) {
     const cardLink = document.createElement('a');
     cardLink.href = `/detail/${id}`; // Dynamic URL for each card
     cardLink.classList.add('card-link', 'card');
+    
     const card = document.createElement('div');
     card.classList.add('card-body');
+    
     const img = document.createElement('img');
     img.src = imageurl;
     img.classList.add('gallery-image', 'card-img-top');
+    
     const cardTitle = document.createElement('h5');
     cardTitle.classList.add('card-title');
     cardTitle.textContent = title;
+    
     const cardDesc = document.createElement('p');
     cardDesc.classList.add('card-text');
     cardDesc.textContent = description;
+    
     card.appendChild(img);
     card.appendChild(cardTitle);
     card.appendChild(cardDesc);
+    
     cardLink.appendChild(card);
     col.appendChild(cardLink);  
     return col;
 }
+
 window.addEventListener('load', () => {
     const urlParams = new URLSearchParams(window.location.search);
     currentPage = parseInt(urlParams.get('page')) || 1;
@@ -355,3 +362,33 @@ window.addEventListener('load', () => {
     mydata(); // Fetch and display data
 });
 
+document.addEventListener('DOMContentLoaded', async () => {
+    // Get the game ID from the URL
+    const urlParams = new URLSearchParams(window.location.pathname.split('/').pop());
+    const gameId = urlParams.get('id');
+    
+    if (gameId) {
+        try {
+            // Fetch game details using the game ID
+            const response = await axios.get('https://free-to-play-games-database.p.rapidapi.com/api/game', {
+                params: { id: gameId },
+                headers: {
+                    'x-rapidapi-key': 'ddc77ba17dmsh9757b4165dd8a04p179b34jsndb3e9fbbea77',
+                    'x-rapidapi-host': 'free-to-play-games-database.p.rapidapi.com'
+                }
+            });
+            
+            const game = response.data;
+            // Display game details
+            document.getElementById('game-title').textContent = game.title;
+            document.getElementById('game-thumbnail').src = game.thumbnail;
+            document.getElementById('game-status').textContent = game.status;
+            // Add more details if needed
+            
+        } catch (error) {
+            console.error('Error fetching game details:', error);
+        }
+    } else {
+        console.error('No game ID found in the URL');
+    }
+});

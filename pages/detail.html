@@ -6,10 +6,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src ="../js/main.js"></script>
+    <script src="../js/main.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
+    <title>Game Details</title>
 </head>
+<body>
 <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
     <div class="container">
         <a class="navbar-brand" href="/">
@@ -20,170 +21,80 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="pcGamesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        PC Games
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="pcGamesDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Adventure</a></li>
-                        <li><a class="dropdown-item" href="#">Strategy</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="browserGamesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Browser Games
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="browserGamesDropdown">
-                        <li><a class="dropdown-item" href="#">Puzzle</a></li>
-                        <li><a class="dropdown-item" href="#">Casual</a></li>
-                        <li><a class="dropdown-item" href="#">MMO</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/news">Latest News</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/myto">Add task</a>
-                </li>
+                <!-- Navigation items -->
             </ul>
             <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" id="search-input" aria-label="Search">
             </form>
         </div>
     </div>
-</nav> 
-<body>
-    <div class="container mt-5">
-        <div class="row">
-            <!-- Left side: Image, buttons, and icons -->
-            <div class="col-3">
-                <!-- Image -->
-                <img id="game-image" src="" alt="Game Image" class="img-fluid mb-3">
-                
-                <!-- Buttons in the same row -->
-                <div class="d-flex justify-content-between mb-3">
-                    <button class="btn btn-primary">Button 1</button>
-                    <button class="btn btn-secondary">Button 2</button>
-                </div>
-    
-                <!-- Icons: Like, Dislike, Add -->
-                <div class="d-flex justify-content-between">
-                    <i class="fas fa-thumbs-up"></i>  <!-- Like icon -->
-                    <i class="fas fa-thumbs-down"></i>  <!-- Dislike icon -->
-                    <i class="fas fa-plus"></i>  <!-- Add icon -->
-                </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Left Column: Image and Icons -->
+        <div class="col-md-4">
+            <img id="game-image" src="" alt="Game Image" class="img-fluid rounded shadow mb-3">
+            <div class="d-flex justify-content-between mb-3">
+                <button class="btn btn-primary">Download</button>
+                <button class="btn btn-secondary">Visit Website</button>
             </div>
-    
-            <!-- Right side: Title and Description -->
-            <div class="col-9">
-                <!-- Header and description -->
-                <div>
-                    <h4 class="description-title display-4 font-weight-bold game-title" id="game-title">One Punch Man: World</h4>
-                    <div class="border border-secondary p-4 my-5 rounded">
-                        <p id="game-description"></p>
-                    </div>
-                </div>
-    
-                <!-- About this game section -->
-                <div class="content">
-                    <h4 class="h2 font-weight-bold mb-2">About This Game</h4>
-                    <div>
-                        <p class="text-justify" >A sinister wave of monsters has attacked Earth's cities and the Hero Association is scrambling to defend the world...</p>
-                    </div>
-                </div>
-    
-                <!-- Screenshots -->
-                <div class="mt-6">
-                    <h4 class="h2 font-weight-bold mb-4">Screenshots</h4>
-                    <div class="d-flex flex-wrap gap-3">
-                        <div class="col-lg-6 mb-3">
-                            <img src="https://www.mmobomb.com/g/1175/one-punch-man-world-1.jpg" class="img-fluid rounded shadow" alt="One Punch Man: World Screenshot 1">
-                        </div>
-                        <div class="col-lg-6 mb-3">
-                            <img src="https://www.mmobomb.com/g/1175/one-punch-man-world-2.jpg" class="img-fluid rounded shadow" alt="One Punch Man: World Screenshot 2">
-                        </div>
-                        <div class="col-lg-6 mb-3">
-                            <img src="https://www.mmobomb.com/g/1175/one-punch-man-world-3.jpg" class="img-fluid rounded shadow" alt="One Punch Man: World Screenshot 3">
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- System Requirements -->
-                <div class="mt-6">
-                    <h4 class="h2 font-weight-bold mb-4">System Requirements</h4>
-                    <div class="row border border-secondary p-4 rounded">
-                        <div class="col-md-6 mb-3">
-                            <div class="p-3 bg-dark text-light rounded">
-                                <p class="text-uppercase">OS</p>
-                                <h6 class="text-white">Windows 7 SP1 64-BIT</h6>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="p-3 bg-dark text-light rounded">
-                                <p class="text-uppercase">Processor</p>
-                                <h6 class="text-white">Intel Core i5 or Equivalent</h6>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="p-3 bg-dark text-light rounded">
-                                <p class="text-uppercase">Memory</p>
-                                <h6 class="text-white">8 GB RAM</h6>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="p-3 bg-dark text-light rounded">
-                                <p class="text-uppercase">Graphics</p>
-                                <h6 class="text-white">NVIDIA GeForce GT 1060 3GB</h6>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="p-3 bg-dark text-light rounded">
-                                <p class="text-uppercase">Storage</p>
-                                <h6 class="text-white">12 GB</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- More Info -->
-                <div class="mt-6">
-                    <h4 class="h2 font-weight-bold mb-4">More Info</h4>
-                    <div class="row border border-secondary p-4 rounded">
-                        <div class="col-md-4">
-                            <p class="text-muted">Developer</p>
-                            <h6 class="text-white">Perfect World</h6>
-                        </div>
-                        <div class="col-md-4">
-                            <p class="text-muted">Publisher</p>
-                            <h6 class="text-white">A PLUS JAPAN</h6>
-                        </div>
-                        <div class="col-md-4">
-                            <p class="text-muted">Release Date</p>
-                            <h6 class="text-white">2024-01-31</h6>
-                        </div>
-                    </div>
-                </div>
+            <div class="d-flex justify-content-between">
+                <i class="fas fa-thumbs-up"></i>
+                <i class="fas fa-thumbs-down"></i>
+                <i class="fas fa-plus"></i>
+            </div>
         </div>
-        <h1 id="game-title">Game Title</h1>
-<img id="game-thumbnail" alt="Game Thumbnail">
-<p id="game-status">Game Status</p>
-        <footer>
-            <div class="container">
-                <img src="..\images\logo-sm.png" alt="Footer Logo">
-                <div class="social-links">
-                    <a href="#" class="btn btn-outline-light btn-sm">Facebook</a>
-                    <a href="#" class="btn btn-outline-light btn-sm">Twitter</a>
-                    <a href="#" class="btn btn-outline-light btn-sm">Instagram</a>
-                </div>
-                <div>Thanks to MMOBomb.com for providing awesome  fdda API.</div>
+        <!-- Right Column: Title, Short Description, and More -->
+        <div class="col-md-8">
+            <h2 id="game-title" class="font-weight-bold"></h2>
+            <p id="game-short-description" class="font-italic text-muted"></p>
+            <div class="border border-secondary p-4 my-4 rounded">
+                <p id="game-description"></p>
             </div>
-        </footer>
+
+            <!-- System Requirements -->
+            <div class="mt-4">
+                <h4 class="h4 font-weight-bold mb-2">System Requirements</h4>
+                <div class="row border border-secondary p-4 rounded">
+                    <div class="col-md-6">
+                        <p class="text-uppercase">OS</p>
+                        <h6 id="os-requirement"></h6>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-uppercase">Processor</p>
+                        <h6 id="processor-requirement"></h6>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-uppercase">Memory</p>
+                        <h6 id="memory-requirement"></h6>
+                    </div>
+                </div>
+            </div>
+
+            <!-- More Info Section -->
+            <div class="mt-4">
+                <h4 class="h4 font-weight-bold mb-2">More Info</h4>
+                <div class="row border border-secondary p-4 rounded">
+                    <div class="col-md-4">
+                        <p class="text-muted">Developer</p>
+                        <h6 id="developer-info"></h6>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-muted">Publisher</p>
+                        <h6 id="publisher-info"></h6>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-muted">Release Date</p>
+                        <h6 id="release-date-info"></h6>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
- 

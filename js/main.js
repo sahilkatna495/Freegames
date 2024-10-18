@@ -362,33 +362,42 @@ window.addEventListener('load', () => {
     mydata(); // Fetch and display data
 });
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // Get the game ID from the URL
-    const urlParams = new URLSearchParams(window.location.pathname.split('/').pop());
-    const gameId = urlParams.get('id');
-    
-    if (gameId) {
-        try {
-            // Fetch game details using the game ID
-            const response = await axios.get('https://free-to-play-games-database.p.rapidapi.com/api/game', {
-                params: { id: gameId },
-                headers: {
-                    'x-rapidapi-key': 'ddc77ba17dmsh9757b4165dd8a04p179b34jsndb3e9fbbea77',
-                    'x-rapidapi-host': 'free-to-play-games-database.p.rapidapi.com'
-                }
-            });
-            
-            const game = response.data;
-            // Display game details
-            document.getElementById('game-title').textContent = game.title;
-            document.getElementById('game-thumbnail').src = game.thumbnail;
-            document.getElementById('game-status').textContent = game.status;
-            // Add more details if needed
-            
-        } catch (error) {
-            console.error('Error fetching game details:', error);
-        }
-    } else {
-        console.error('No game ID found in the URL');
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    const apiUrl = "https://free-to-play-games-database.p.rapidapi.com/api/game?id=452";
+    const apiHeaders = {
+        "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY", // Replace with your actual RapidAPI key
+        "X-RapidAPI-Host": "free-to-play-games-database.p.rapidapi.com"
+    };
+
+    // Fetch the game data from the API
+    fetch(apiUrl, { headers: apiHeaders })
+        .then(response => response.json())
+        .then(data => {
+            // Populate game details
+            document.getElementById('game-title').textContent = data.title;
+            document.getElementById('game-short-description').textContent = data.short_description;
+            document.getElementById('game-description').textContent = data.description;
+            document.getElementById('game-image').src = data.thumbnail;
+            document.getElementById('game-image').alt = data.title;
+
+            // Populate system requirements (if available)
+            if (data.minimum_system_requirements) {
+                document.getElementById('os-requirement').textContent = data.minimum_system_requirements.os;
+                document.getElementById('processor-requirement').textContent = data.minimum_system_requirements.processor;
+                document.getElementById('memory-requirement').textContent = data.minimum_system_requirements.memory;
+            } else {
+                document.getElementById('os-requirement').textContent = "N/A";
+                document.getElementById('processor-requirement').textContent = "N/A";
+                document.getElementById('memory-requirement').textContent = "N/A";
+            }
+
+            // Populate more info section
+            document.getElementById('developer-info').textContent = data.developer;
+            document.getElementById('publisher-info').textContent = data.publisher;
+            document.getElementById('release-date-info').textContent = data.release_date;
+        })
+        .catch(error => {
+            console.error("Error fetching game data:", error);
+        });
 });
+
